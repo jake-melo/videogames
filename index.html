@@ -1,17 +1,43 @@
-<head>
-    <link
-        rel="stylesheet"
-        href="https://pyscript.net/releases/2023.11.2/core.css"
-    />
-    <script
-        type="module"
-        src="https://pyscript.net/releases/2023.11.2/core.js"
-    ></script>
-</head>
-<body>
-    <script type="py" terminal>
-        from pyscript import display
-        display("Hello World!") # this goes to the DOM
-        print("Hello terminal") # this goes to the terminal
-    </script>
-</body>
+<html>
+  <head> 
+    <title>pywebcanvas-loop-example</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+      - pywebcanvas
+    </py-env>
+  </head>
+  <body>
+    <py-script>
+import pywebcanvas as pwc
+
+
+canvas = pwc.Canvas(800, 600)
+loop = pwc.Loop()
+
+x_velocity = 1
+x = 50
+rect = pwc.Rect(x, 50, 25, 25)
+
+async def update():
+    global x_velocity
+    global x
+
+    if x > 200:
+        x_velocity = -1
+    elif x < 50:
+        x_velocity = 1
+
+    x += x_velocity
+
+    rect.x = x
+    canvas.clear()
+    canvas.render(rect) 
+
+loop.add_task("update", update)
+loop.run()
+    </py-script>
+   </head>
+   <body>
+   </body>
+</html>
